@@ -1,3 +1,6 @@
+
+
+
 class Nodo:
     def __init__(self, valor: int, proximo: 'Nodo' = None):
         self.valor = valor
@@ -65,6 +68,28 @@ class Lista:
         self.head = dividir(self.head)
 
 
+    # ---------- Quick Sort (lista encadeada) ----------#
+
+    def quick_sort(self):
+        def quicksort(lista, inicio = 0, fim = None):
+            if fim is None:
+                fim = len(lista) - 1
+            if inicio < fim:
+                pivo = partition(lista, inicio, fim)
+                quicksort(lista, inicio, pivo - 1)
+                quicksort(lista, pivo + 1, fim)
+
+        def partition(lista, inicio, fim):
+            pivot = lista[fim]
+            i = inicio
+            for j in range(inicio, fim):
+                if lista[j] < pivot:
+                    lista[j], lista[i] = lista[i], lista[j]
+                    i = i + 1
+            lista[i], lista[fim] = lista[fim], lista[i]
+            return i
+
+
 
 
 
@@ -87,4 +112,7 @@ print("Antes de ordenar: ", minha_lista.listar())
 
 #5 teste do listar( saida depois da ordenação)
 minha_lista.merge_sort()
-print("depois de ordenar: ", minha_lista.listar())
+print("depois de ordenar: merge_sort ", minha_lista.listar())
+
+minha_lista.quick_sort()
+print("depois de ordenar: quick_sort ", minha_lista.listar())
