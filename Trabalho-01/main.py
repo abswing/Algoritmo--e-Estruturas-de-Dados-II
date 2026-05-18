@@ -1,6 +1,3 @@
-
-
-
 class Nodo:
     def __init__(self, valor: int, proximo: 'Nodo' = None):
         self.valor = valor
@@ -71,31 +68,45 @@ class Lista:
     # ---------- Quick Sort (lista encadeada) ----------#
 
     def quick_sort(self):
-        def quicksort(lista, inicio = 0, fim = None):
-            if fim is None:
-                fim = len(lista) - 1
-            if inicio < fim:
-                pivo = partition(lista, inicio, fim)
-                quicksort(lista, inicio, pivo - 1)
-                quicksort(lista, pivo + 1, fim)
+        def quicksort(head):
+            if head is None or head.proximo is None:
+                return head
+            
+            pivo = head.valor
+            esquerda = None
+            direita = None
+            atual = head.proximo
 
-        def partition(lista, inicio, fim):
-            pivot = lista[fim]
-            i = inicio
-            for j in range(inicio, fim):
-                if lista[j] < pivot:
-                    lista[j], lista[i] = lista[i], lista[j]
-                    i = i + 1
-            lista[i], lista[fim] = lista[fim], lista[i]
-            return i
+            while atual:
+                if atual.valor < pivo:
+                    esquerda = Nodo(atual.valor, esquerda)
+                else:
+                    direita = Nodo(atual.valor, direita)
+                atual = atual.proximo
 
+            esquerda = quicksort(esquerda)
+            direita = quicksort(direita)
 
+            nodo_pivo = Nodo(pivo, direita)
 
+            if esquerda is None:
+                return nodo_pivo
+            else:
+                atual_esquerda = esquerda
+                
+                while atual_esquerda.proximo:
+                    atual_esquerda = atual_esquerda.proximo
+                atual_esquerda.proximo = nodo_pivo
+                return esquerda
+            
+        self.head = quicksort(self.head)
 
+        
+      
 
+        
 
-
-    # 1. Criei a instância da classe
+# 1. Criei a instância da classe
 minha_lista = Lista()
 
 # 2. criei a lista bagunçada 
